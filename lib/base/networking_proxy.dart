@@ -1,7 +1,6 @@
-import 'package:ht_networking/base/dio_networking.dart';
-import 'package:ht_networking/base/log.dart';
-import 'package:ht_networking/base/networking_protocol.dart';
-import 'package:ht_networking/ht_networking.dart';
+import 'dio_networking.dart';
+import 'log.dart';
+import 'networking_protocol.dart';
 
 import 'api.dart';
 
@@ -25,7 +24,7 @@ class NetworkingProxy {
     return _instance;
   }
 
-  Future request(Api api) {
+  Future<T> request<T>(Api<T> api) async {
     String url = api.host;
     if (api.path != null) {
       url = url + api.path;

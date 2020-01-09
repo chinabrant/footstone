@@ -14,7 +14,7 @@ import 'config.dart';
 import 'ht_response.dart';
 
 class DioNetworking extends NetworkingProtocol {
-  Dio _dio = Dio();
+  final Dio _dio = Dio();
 
   // static BaseOptions get _baseOptions {
   //   BaseOptions options = new BaseOptions();
@@ -38,7 +38,6 @@ class DioNetworking extends NetworkingProtocol {
               receiveTimeout: timeout * 1000,
               sendTimeout: timeout * 1000,
               headers: headers));
-
       if (response.statusCode == 200 || response.statusCode == 201) {
         return HTResponse(
             isSuccess: true,

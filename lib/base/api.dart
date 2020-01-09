@@ -65,6 +65,6 @@ abstract class Api<T> {
 
   /// 发起请求
   Future<T> start() async {
-    return NetworkingProxy.instance.request(this);
+    return NetworkingProxy.instance.request<T>(this);
   }
 }
