@@ -6,7 +6,9 @@
  * @Description: 
  */
 
-import 'package:ht_networking/base/ht_response.dart';
+import 'package:ht_networking/base/networking_proxy.dart';
+
+import 'ht_response.dart';
 
 import 'dio_networking.dart';
 
@@ -33,7 +35,7 @@ abstract class Api<T> {
   String method;
 
   /// 自定义的请求头
-  Map<String, dynamic> customHeaders;
+  Map<String, String> customHeaders;
 
   /// 请求头的content-type, 会根据content-type对数据进行加密
   String contentType;
@@ -58,46 +60,11 @@ abstract class Api<T> {
     return null;
   }
 
-  /// TODO:
-  /// 1. 根据content-type对数据进行加密
-  /// 2. 公共请求头的设置
+  /// 唯一标识这个请求，用来取消请求
+  String identifier;
+
+  /// 发起请求
   Future<T> start() async {
-    String url = host;
-    if (path != null) {
-      url = url + path;
-    }
-
-    Map<String, dynamic> headers = customHeaders ?? {};
-    if (contentType != null) {
-      headers['content-type'] = contentType;
-    }
-
-    if (method == HTHttpMethod.get) {
-      return DioNetworking.get(url,
-              parameters: parameters, headers: headers, timeout: timeout)
-          .then((response) {
-        return convert(response);
-      });
-    } else if (method == HTHttpMethod.post) {
-      return DioNetworking.post(host + path,
-              data: getPostData(),
-              parameters: parameters,
-              headers: headers,
-              timeout: timeout)
-          .then((response) {
-        return convert(response);
-      });
-    }
-
-    return null;
-  }
-
-  /// 对post数据进行加密
-  dynamic getPostData() {
-    if (requestEncodeType == RequestEncodeType.none) {
-      return postData;
-    }
-
-    return postData;
+    return NetworkingProxy.instance.request(this);
   }
 }

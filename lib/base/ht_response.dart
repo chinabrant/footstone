@@ -13,7 +13,7 @@ class HTResponse<K> {
   final int statusCode;
   final String errorMsg;
   // final Error error;
-  final Object originalData;
+  final dynamic originalData;
 
   HTResponse({this.object, this.isSuccess, this.statusCode, this.errorMsg, this.originalData});
 }

@@ -6,7 +6,7 @@
  * @Description: 
  */
 
-import 'package:ht_networking/base/config.dart';
+import 'config.dart';
 
 import 'api.dart';
 
@@ -17,7 +17,7 @@ class BaseApi<T> extends Api<T> {
   String contentType = 'application/json';
 
   @override
-  Map<String, dynamic> customHeaders;
+  Map<String, String> customHeaders;
 
   @override
   String host = HTNetworkingConfig.instance.baseUrl;

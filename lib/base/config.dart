@@ -23,6 +23,8 @@ class HTNetworkingConfig {
   int connectTimeout; /// 毫秒
   int receiveTimeout; /// 毫秒
 
+  bool logEnabled = false;
+
   /// 默认的全局请求头
   Map<String, String> defaultHeaders = {
     "version": '',
