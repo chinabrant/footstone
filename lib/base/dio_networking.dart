@@ -25,6 +25,10 @@ class DioNetworking extends NetworkingProtocol {
   //   return options;
   // }
 
+  void addInterceptor(Interceptor interceptor) {
+    _dio.interceptors.add(interceptor);
+  }
+
   Future<HTResponse> get(String url,
       {Map<String, dynamic> parameters,
       Map<String, String> headers,
