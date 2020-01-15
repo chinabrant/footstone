@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+
 import 'dio_networking.dart';
 import 'log.dart';
 import 'networking_protocol.dart';
@@ -22,6 +24,12 @@ class NetworkingProxy {
     }
 
     return _instance;
+  }
+
+  void addInterceptor(Interceptor interceptor) {
+    if (_networkingProtocol is DioNetworking) {
+      (_networkingProtocol as DioNetworking).addInterceptor(interceptor);
+    }
   }
 
   Future<T> request<T>(Api<T> api) async {
