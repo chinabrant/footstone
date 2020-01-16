@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:ht_networking/ht_networking.dart';
 
 import 'dio_networking.dart';
 import 'log.dart';
@@ -38,7 +39,16 @@ class NetworkingProxy {
       url = url + api.path;
     }
 
-    Map<String, String> headers = api.customHeaders ?? {};
+    Map<String, String> headers = HTNetworkingConfig.instance.defaultHeaders ?? {};
+    
+    if (api.customHeaders != null) {
+      for (var item in api.customHeaders.entries) {
+        if (item.value != null) {
+          headers[item.key] = item.value;
+        }
+      }
+    }
+
     if (api.contentType != null) {
       headers['content-type'] = api.contentType;
     }
@@ -75,4 +85,8 @@ class NetworkingProxy {
 
     return api.postData;
   }
+}
+
+abstract class HTInterceptor {
+  
 }

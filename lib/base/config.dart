@@ -28,11 +28,11 @@ class HTNetworkingConfig {
   /// 默认的全局请求头
   Map<String, String> defaultHeaders = {
     "version": '',
-    "OS": _platform,
+    "OS": platform,
     "user-agent": "flutter",
   };
 
-  static String get _platform {
+  static String get platform {
     if (Platform.isIOS) {
       return 'IOS';
     } else if (Platform.isAndroid) {
