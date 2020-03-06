@@ -92,4 +92,39 @@ class DioNetworking extends NetworkingProtocol {
           isSuccess: false, originalData: null, errorMsg: e.toString());
     }
   }
+
+  @override
+  Future<HTResponse> pb(String url,
+      {data,
+      Map<String, dynamic> parameters,
+      Map<String, String> headers,
+      int timeout = 10,
+      CancelToken cancelToken}) async {
+    try {
+      var response = await _dio.post(url,
+          data: data,
+          // queryParameters: parameters,
+          options: Options(receiveTimeout: timeout * 1000, headers: headers)
+              .merge(contentType: "bin/cc2020")
+              .merge(responseType: ResponseType.stream),
+          cancelToken: cancelToken);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return HTResponse(
+            isSuccess: true,
+            originalData: response.data,
+            statusCode: response.statusCode);
+      } else {
+        return HTResponse(
+            isSuccess: false,
+            originalData: response.data,
+            statusCode: response.statusCode,
+            errorMsg: response.statusMessage);
+      }
+    } on DioError catch (e) {
+      htNetworkingLog('DioError: $e');
+      return HTResponse(
+          isSuccess: false, originalData: null, errorMsg: e.toString());
+    }
+  }
 }
