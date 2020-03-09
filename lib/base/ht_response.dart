@@ -25,7 +25,7 @@ class HTResponse<K> {
   /// 接口正常返回后的status
   int get status {
     if (decodeData != null && decodeData['status'] is int) {
-      return originalData['status'];
+      return decodeData['status'];
     }
 
     return -1;
