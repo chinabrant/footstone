@@ -6,6 +6,8 @@
  * @Description: 
  */
 
+import 'dart:convert';
+
 /// 网络请求结果
 class HTResponse<K> {
   final K object;
@@ -14,12 +16,15 @@ class HTResponse<K> {
   final String errorMsg;
   // final Error error;
   final dynamic originalData;
+  Map<String, dynamic> decodeData;
 
-  HTResponse({this.object, this.isSuccess, this.statusCode, this.errorMsg, this.originalData});
+  HTResponse({this.object, this.isSuccess, this.statusCode, this.errorMsg, this.originalData}) {
+    decodeData = _decodeData;
+  }
 
   /// 接口正常返回后的status
   int get status {
-    if (originalData != null && originalData['status'] is int) {
+    if (decodeData != null && decodeData['status'] is int) {
       return originalData['status'];
     }
 
@@ -27,18 +32,26 @@ class HTResponse<K> {
   }
 
   dynamic get data {
-    if (originalData == null) {
+    if (decodeData == null) {
       return null;
     }
     
-    return originalData['data'];
+    return decodeData['data'];
   }
 
   String get msg {
-    if (originalData == null) {
+    if (decodeData == null) {
       return null;
     }
 
-    return originalData['msg'];
+    return decodeData['msg'];
+  }
+
+  Map<String, dynamic> get _decodeData {
+    if (originalData is String) {
+      return json.decode(originalData);
+    }
+
+    return originalData;
   }
 }
