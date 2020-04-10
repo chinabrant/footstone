@@ -9,7 +9,7 @@
 import 'dart:convert';
 
 /// 网络请求结果
-class HTResponse<K> {
+class Response<K> {
   final K object;
   final bool isSuccess;
   final int statusCode;
@@ -18,7 +18,7 @@ class HTResponse<K> {
   final dynamic originalData;
   Map<String, dynamic> decodeData;
 
-  HTResponse({this.object, this.isSuccess, this.statusCode, this.errorMsg, this.originalData}) {
+  Response({this.object, this.isSuccess, this.statusCode, this.errorMsg, this.originalData}) {
     decodeData = _decodeData;
   }
 

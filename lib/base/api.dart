@@ -6,11 +6,8 @@
  * @Description: 
  */
 
-import 'package:ht_networking/base/networking_proxy.dart';
-
-import 'ht_response.dart';
-
-import 'dio_networking.dart';
+import 'response.dart';
+import 'networking_proxy.dart';
 
 // 请求数据的加密类型
 enum RequestEncodeType { none, json, aes128, xxtea }
@@ -56,7 +53,7 @@ abstract class Api<T> {
   ResponseDecodeType responseDecodeType;
 
   /// 子类重载这个方法，将数据解析好
-  T convert(HTResponse response) {
+  T convert(Response response) {
     return null;
   }
 

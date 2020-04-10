@@ -1,5 +1,7 @@
 
-import 'package:ht_networking/ht_networking.dart';
+import 'package:ht_networking/base/api.dart';
+import 'package:ht_networking/base/base_api.dart';
+import 'package:ht_networking/footstone.dart';
 
 class BaiduApi extends BaseApi<String> {
   @override
@@ -12,7 +14,7 @@ class BaiduApi extends BaseApi<String> {
   Map<String, dynamic> get parameters => {};
 
   @override
-  String convert(HTResponse response) {
+  String convert(Response response) {
     print(response.originalData);
     return response.originalData;
   }

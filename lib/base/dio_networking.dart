@@ -7,11 +7,9 @@
  */
 
 import 'package:dio/dio.dart';
-import 'package:ht_networking/base/log.dart';
-import 'package:ht_networking/base/networking_protocol.dart';
-import 'api.dart';
-import 'config.dart';
-import 'ht_response.dart';
+import 'response.dart' as footstone;
+import 'log.dart';
+import 'networking_protocol.dart';
 
 class DioNetworking extends NetworkingProtocol {
   final Dio _dio = Dio();
@@ -29,11 +27,11 @@ class DioNetworking extends NetworkingProtocol {
     _dio.interceptors.add(interceptor);
   }
 
-  Future<HTResponse> get(String url,
+  Future<footstone.Response> get(String url,
       {Map<String, dynamic> parameters,
       Map<String, String> headers,
       int timeout = 10}) async {
-    htNetworkingLog('get request: $url, parameters:$parameters');
+    footstoneLog('get request: $url, parameters: $parameters, headers: $headers');
 
     try {
       var response = await _dio.get(url,
@@ -43,31 +41,31 @@ class DioNetworking extends NetworkingProtocol {
               sendTimeout: timeout * 1000,
               headers: headers));
       if (response.statusCode == 200 || response.statusCode == 201) {
-        return HTResponse(
+        return footstone.Response(
             isSuccess: true,
             originalData: response.data,
             statusCode: response.statusCode);
       } else {
-        return HTResponse(
+        return footstone.Response(
             isSuccess: false,
             originalData: response.data,
             statusCode: response.statusCode,
             errorMsg: response.statusMessage);
       }
     } on DioError catch (e) {
-      htNetworkingLog('DioError: $e');
-      return HTResponse(
+      footstoneLog('DioError: $e');
+      return footstone.Response(
           isSuccess: false, originalData: null, errorMsg: e.toString());
     }
     // return null;
   }
 
-  Future<HTResponse> post(String url,
+  Future<footstone.Response> post(String url,
       {dynamic data,
       Map<String, dynamic> parameters,
       Map<String, String> headers,
       int timeout = 10}) async {
-    htNetworkingLog('post request: $url');
+    footstoneLog('post request: $url, parameters: $parameters, headers: $headers');
     try {
       var response = await _dio.post(url,
           data: data,
@@ -75,55 +73,20 @@ class DioNetworking extends NetworkingProtocol {
           options: Options(receiveTimeout: timeout * 1000, headers: headers));
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        return HTResponse(
+        return footstone.Response(
             isSuccess: true,
             originalData: response.data,
             statusCode: response.statusCode);
       } else {
-        return HTResponse(
+        return footstone.Response(
             isSuccess: false,
             originalData: response.data,
             statusCode: response.statusCode,
             errorMsg: response.statusMessage);
       }
     } on DioError catch (e) {
-      htNetworkingLog('DioError: $e');
-      return HTResponse(
-          isSuccess: false, originalData: null, errorMsg: e.toString());
-    }
-  }
-
-  @override
-  Future<HTResponse> pb(String url,
-      {data,
-      Map<String, dynamic> parameters,
-      Map<String, String> headers,
-      int timeout = 10,
-      CancelToken cancelToken}) async {
-    try {
-      var response = await _dio.post(url,
-          data: data,
-          // queryParameters: parameters,
-          options: Options(receiveTimeout: timeout * 1000, headers: headers)
-              .merge(contentType: "bin/cc2020")
-              .merge(responseType: ResponseType.stream),
-          cancelToken: cancelToken);
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        return HTResponse(
-            isSuccess: true,
-            originalData: response.data,
-            statusCode: response.statusCode);
-      } else {
-        return HTResponse(
-            isSuccess: false,
-            originalData: response.data,
-            statusCode: response.statusCode,
-            errorMsg: response.statusMessage);
-      }
-    } on DioError catch (e) {
-      htNetworkingLog('DioError: $e');
-      return HTResponse(
+      footstoneLog('DioError: $e');
+      return footstone.Response(
           isSuccess: false, originalData: null, errorMsg: e.toString());
     }
   }

@@ -1,7 +1,8 @@
 
-import 'package:ht_networking/ht_networking.dart';
 
-void htNetworkingLog(String message) {
+import 'config.dart';
+
+void footstoneLog(String message) {
   if (!HTNetworkingConfig.instance.logEnabled) {
     return;
   }

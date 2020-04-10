@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:ht_networking/ht_networking.dart';
 
+import 'config.dart';
 import 'dio_networking.dart';
 import 'log.dart';
 import 'networking_protocol.dart';
@@ -73,7 +73,7 @@ class NetworkingProxy {
       });
     }
 
-    htNetworkingLog('不支持的http method: ${api.method}');
+    footstoneLog('不支持的http method: ${api.method}');
     return null;
   }
 
