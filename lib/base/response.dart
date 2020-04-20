@@ -24,8 +24,8 @@ class Response<K> {
 
   /// 接口正常返回后的status
   int get status {
-    if (decodeData != null && decodeData['status'] is int) {
-      return decodeData['status'];
+    if (decodeData != null && decodeData['errcode'] is int) {
+      return decodeData['errcode'];
     }
 
     return -1;
